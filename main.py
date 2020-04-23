@@ -12,8 +12,8 @@ width  = 400
 halfHeight = int(height/2)
 halfWidth = int(width/2)
 
-FPS = 24
-totalFrames = FPS*5
+FPS = 30
+totalFrames = FPS*30
 frameOffset = 0
 
 drawTimeBar = False
@@ -26,7 +26,7 @@ if(mirror):
     height *=2
     width *= 2
 
-fileName = "debug"
+fileName = "test"
 fileEnding = ".gif"
 
 def main():
@@ -36,10 +36,8 @@ def main():
             image = np.array(Image.new('RGBA', (width, height)))
             for y in range(0, halfHeight if mirror else height, 1):
                 for x in range(0, halfWidth if mirror else width, 1):
-                    col = int(equation(abs(x + xOffset), abs(y + yOffset)) * framecnt)
-                    ret = hextoRGBA(col, 4)
-
-                    image[y,x] = [mathExt.remap(val, 0, 15, 0, 255) for val in ret]
+                    col = hextoRGBA(int(equation(abs(x + xOffset), abs(y + yOffset)) * framecnt), 6)
+                    image[y,x] = [val*255/((1 << 6)-1) for val in col]
 
             if(mirror):
                 image[halfHeight:height,0:halfWidth] = np.flipud(image[0:halfHeight,0:halfWidth])
