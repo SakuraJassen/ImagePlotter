@@ -36,14 +36,10 @@ def main():
             image = np.array(Image.new('RGBA', (width, height)))
             for y in range(0, halfHeight if mirror else height, 1):
                 for x in range(0, halfWidth if mirror else width, 1):
-                    ret = list(mathExt.chunks(mathExt.get_bin(int(equation(abs(x + xOffset), abs(y + yOffset)) * framecnt), 8*3), 8))
-                    ret.reverse()
+                    col = int(equation(abs(x + xOffset), abs(y + yOffset)) * framecnt)
+                    ret = hextoRGBA(col, 4)
 
-                    r = int(''.join(ret[0]), 2) 
-                    g = int(''.join(ret[1]), 2) 
-                    b = int(''.join(ret[2]), 2) 
-
-                    image[y,x] = [r, g, b, 255]
+                    image[y,x] = [mathExt.remap(val, 0, 15, 0, 255) for val in ret]
 
             if(mirror):
                 image[halfHeight:height,0:halfWidth] = np.flipud(image[0:halfHeight,0:halfWidth])
@@ -62,6 +58,10 @@ def main():
 def equation(x, y):
     ret = (math.sqrt(x)*math.sqrt(y))
     return ret
+
+def hextoRGBA(d, bitsize = 8):
+    bitmask = (1<<bitsize)-1
+    return [(bitmask & (d)), (bitmask & (d >> bitsize)), (bitmask & (d >> bitsize*2)), bitmask]
 
 if __name__ == '__main__':
     main()
