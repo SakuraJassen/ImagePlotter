@@ -1,7 +1,7 @@
 import numpy
 
 def drawRectangleFill(ndarray, p1x, p1y, p2x, p2y, r, g, b):
-	ndarray[p1x:p2x, p1y:p2y] = [r,g,b,255]
+	ndarray[p1y:p2y, p1x:p2x] = [r,g,b,255]
 
 def drawRectangle(ndarray, p1x, p1y, p2x, p2y, width, r, g, b):
 	drawRectangleFill(ndarray, p1x, p1y, p2x, p2y, 255, 255, 255)
