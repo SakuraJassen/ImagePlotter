@@ -7,8 +7,8 @@ from pygifsicle import optimize
 fileName = "test2"
 fileEnding = ".gif"
 outFileEnding = ".gif"
-originalFilePath = 'C:\\Users\\Nutzer\\Documents\\Python\\out\\{0}{1}'.format(fileName, fileEnding)
-outFilePath = 'C:\\Users\\Nutzer\\Documents\\Python\\out\\{0}rev{1}'.format(fileName, outFileEnding)
+originalFilePath = './out/{0}{1}'.format(fileName, fileEnding)
+outFilePath = './out/{0}rev{1}'.format(fileName, outFileEnding)
 
 startOffset = 0
 endOffSet = 0

@@ -60,7 +60,8 @@ def main():
             writer.append_data(image)
     print(equation.cache_info())
     if(fileEnding == ".gif"):
-        draw.optimizeGIF('./out/{0}{1}'.format(fileName, fileEnding), 'C:\\Users\\Nutzer\\Documents\\Python\\out\\{0}opt{1}'.format(fileName, fileEnding))
+        draw.optimizeGIF('./out/{0}{1}'.format(fileName, fileEnding), './out/{0}opt{1}'.format(fileName, fileEnding))
+
 @lru_cache(maxsize=None)   
 def equation(x, y):
     ret = math.tan(x)*math.sin(y)
