@@ -1,12 +1,14 @@
 import imageio
 import progressbar
 
-fileName = "debug"
+fileName = "testacos2"
 fileEnding = ".gif"
-startOffset = 1
-endOffSet = 10
+startOffset = 0
+endOffSet = 24*5
 
-Metadata = {'fps': 30}
+Reverse = False
+
+Metadata = {'fps': 24}
 
 with imageio.get_reader('C:\\Users\\Nutzer\\Documents\\Python\\out\\{0}{1}'.format(fileName, fileEnding)) as reader:
     totalFrames = reader.get_length() # A Gif doesn't save the FPS so we either have to estimate it or get a User to provide it
@@ -30,7 +32,8 @@ with imageio.get_reader('C:\\Users\\Nutzer\\Documents\\Python\\out\\{0}{1}'.form
         for x in progressbar.progressbar(range(len(images))):
             writer.append_data(images[x])
 
-        images.reverse()
-        print("2/2...")
-        for x in progressbar.progressbar(range(len(images))):
-            writer.append_data(images[x])
+        if(Reverse == True):
+            images.reverse()
+            print("2/2...")
+            for x in progressbar.progressbar(range(len(images))):
+                writer.append_data(images[x])

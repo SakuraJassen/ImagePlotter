@@ -12,10 +12,11 @@ width  = 400
 halfHeight = int(height/2)
 halfWidth = int(width/2)
 
-FPS = 30
-totalFrames = FPS*30
+FPS = 24
+totalFrames = FPS*10
 frameOffset = 0
 
+debug = True
 drawTimeBar = False
 mirror = False
 
@@ -26,18 +27,23 @@ if(mirror):
     height *=2
     width *= 2
 
-fileName = "test"
+fileName = "testacos2"
 fileEnding = ".gif"
 
 def main():
     print("Creating File:'{0}{1}' with {2} FPS and total Frames of {5} and a size of {3}x{4}".format(fileName, fileEnding, FPS, width, height, totalFrames))
     with imageio.get_writer('./out/{0}{1}'.format(fileName, fileEnding), mode='I', fps=FPS) as writer:
+        if(debug):
+            d = np.fromfunction(np.vectorize(equation), [height, width])
+            print(d)
+            print(d*frameOffset)
         for framecnt in progressbar.progressbar(range(1 + frameOffset, totalFrames + frameOffset + 1)):
             image = np.array(Image.new('RGBA', (width, height)))
             for y in range(0, halfHeight if mirror else height, 1):
                 for x in range(0, halfWidth if mirror else width, 1):
-                    col = hextoRGBA(int(equation(abs(x + xOffset), abs(y + yOffset)) * framecnt), 6)
-                    image[y,x] = [val*255/((1 << 6)-1) for val in col]
+                    bitsize = 4
+                    col = hextoRGBA(int(equation(abs(x + xOffset), abs(y + yOffset)) * framecnt), bitsize)
+                    image[y,x] = [val*255/((1 << bitsize)-1) for val in col]
 
             if(mirror):
                 image[halfHeight:height,0:halfWidth] = np.flipud(image[0:halfHeight,0:halfWidth])
@@ -54,8 +60,11 @@ def main():
 
 @lru_cache(maxsize=None)   
 def equation(x, y):
-    ret = (math.sqrt(x)*math.sqrt(y))
-    return ret
+    ret = math.atan2(y,x)
+    return abs(ret)
+
+def valueToColor(val):
+    return hextoRGBA(abs(val), 8)
 
 def hextoRGBA(d, bitsize = 8):
     bitmask = (1<<bitsize)-1
